@@ -7,12 +7,18 @@
 	"watchProject": true,
 	"physicsEngine": "cannon",
 	"pluginsPreferences": {},
+	"packageManager": "npm",
+	"outputSceneDirectory": "",
 	"https": {
+		"enabled": false
+	},
+	"basisCompressedTextures": {
 		"enabled": false
 	},
 	"ktx2CompressedTextures": {
 		"enabled": false,
 		"pvrTexToolCliPath": "",
+		"nvidiaTextureToolsLink": {},
 		"forcedFormat": "automatic",
 		"enabledInPreview": false,
 		"astcOptions": {
@@ -29,6 +35,5 @@
 			"enabled": false,
 			"quality": "etcfast"
 		}
-	},
-	"packageManager": "npm"
+	}
 }

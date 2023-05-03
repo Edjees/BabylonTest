@@ -1,4 +1,5 @@
 {
+	"animationGroups": [],
 	"cameras": [
 		"playerCamera-0ef271c0-0f5f-4ad0-b681-20821bc03e36.json"
 	],
@@ -37,19 +38,22 @@
 		{
 			"isMultiMaterial": true,
 			"bindedMeshes": [
-				"f57b49d3-e402-417c-9f93-0e1271df67a5"
+				"f57b49d3-e402-417c-9f93-0e1271df67a5",
+				"40e3828f-e442-4eaa-8ef5-df63bb19053b"
 			],
 			"json": "player-74789502-a77d-457b-bbb9-4d4565ea8151.json"
 		}
 	],
 	"textures": [
-		"night.env-6.json"
+		"night.env-6e526de2-4a56-464c-b355-bbb92921a811.json"
 	],
 	"meshes": [
 		"ground-42d0385d-4fb7-409c-a26e-0cbf406a4ccd.json",
 		"cube-287f4884-bbf3-4c14-969b-83371249634d.json",
 		"sky-18b3d26b-05ed-494e-b908-9d795df06ff5.json",
-		"player-f57b49d3-e402-417c-9f93-0e1271df67a5.json"
+		"player-f57b49d3-e402-417c-9f93-0e1271df67a5.json",
+		"player-40e3828f-e442-4eaa-8ef5-df63bb19053b.json",
+		"boxCollider-3150ccf1-6ef2-4669-bf21-70b272ce8de7.json"
 	],
 	"transformNodes": [
 		"player-078c2d5d-b690-4f72-bfb1-614c5eb90ad3.json"
@@ -63,8 +67,9 @@
 	],
 	"sounds": [],
 	"morphTargetManagers": [],
+	"reflectionProbes": [],
 	"scene": {
-		"autoClear": false,
+		"autoClear": true,
 		"clearColor": [
 			0,
 			0,
@@ -113,7 +118,6 @@
 			"_colorGradingBGR": true,
 			"_exposure": 1,
 			"_toneMappingEnabled": false,
-			"_toneMappingType": 0,
 			"_contrast": 1,
 			"vignetteStretch": 0,
 			"vignetteCentreX": 0,
@@ -128,6 +132,7 @@
 			"vignetteCameraFov": 0.5,
 			"_vignetteBlendMode": 0,
 			"_vignetteEnabled": false,
+			"_skipFinalColorClamp": false,
 			"_applyByPostProcess": true,
 			"_isEnabled": true
 		},
@@ -170,7 +175,24 @@
 							"exposure": 1,
 							"contrast": 1,
 							"fromLinearSpace": true,
-							"toneMappingEnabled": false
+							"toneMappingEnabled": false,
+							"colorCurvesEnabled": false,
+							"colorCurves": {
+								"tags": null,
+								"_globalHue": 200,
+								"_globalDensity": 80,
+								"_globalSaturation": 80,
+								"_globalExposure": 0,
+								"_highlightsHue": 20,
+								"_highlightsDensity": 80,
+								"_highlightsSaturation": -80,
+								"_highlightsExposure": 0,
+								"_midtonesHue": 30,
+								"_midtonesDensity": 0,
+								"_midtonesSaturation": 0,
+								"_midtonesExposure": 0
+							},
+							"colorGradingEnabled": false
 						},
 						"bloom": {
 							"enabled": false,
@@ -339,6 +361,7 @@
 		"graphs": [],
 		"prefabs": []
 	},
+	"cinematics": [],
 	"project": {
 		"camera": {
 			"tags": null,
@@ -355,15 +378,15 @@
 			"checkCollisions": false,
 			"applyGravity": false,
 			"rotation": [
-				0.2230455869800664,
-				2.4433919821701764,
+				0.010245538151941513,
+				2.474660825820995,
 				0
 			],
 			"speed": 40,
 			"position": [
-				-80.7702703915258,
-				42.35137476143473,
-				67.07259703212644
+				-357.6232923001664,
+				176.03166485151698,
+				721.8371872978548
 			],
 			"upVector": [
 				0,
@@ -371,6 +394,7 @@
 				0
 			],
 			"fov": 0.8,
+			"projectionPlaneTilt": 0,
 			"minZ": 1,
 			"maxZ": 10000,
 			"inertia": 0.5,
@@ -384,9 +408,11 @@
 			"metadata": {
 				"script": {
 					"name": "None"
-				}
+				},
+				"detached": false
 			},
-			"type": "FreeCamera",
+			"uniqueId": 8,
+			"type": "UniversalCamera",
 			"inputsmgr": {
 				"FreeCameraKeyboardMoveInput": {
 					"tags": null,
@@ -407,7 +433,10 @@
 					],
 					"keysRight": [
 						68
-					]
+					],
+					"rotationSpeed": 0.5,
+					"keysRotateLeft": [],
+					"keysRotateRight": []
 				},
 				"FreeCameraMouseInput": {
 					"tags": null,
@@ -420,7 +449,8 @@
 				}
 			},
 			"animations": [],
-			"ranges": []
+			"ranges": [],
+			"isEnabled": true
 		}
 	},
 	"postProcesses": {
@@ -456,7 +486,24 @@
 					"exposure": 1,
 					"contrast": 1,
 					"fromLinearSpace": true,
-					"toneMappingEnabled": false
+					"toneMappingEnabled": false,
+					"colorCurvesEnabled": false,
+					"colorCurves": {
+						"tags": null,
+						"_globalHue": 200,
+						"_globalDensity": 80,
+						"_globalSaturation": 80,
+						"_globalExposure": 0,
+						"_highlightsHue": 20,
+						"_highlightsDensity": 80,
+						"_highlightsSaturation": -80,
+						"_highlightsExposure": 0,
+						"_midtonesHue": 30,
+						"_midtonesDensity": 0,
+						"_midtonesSaturation": 0,
+						"_midtonesExposure": 0
+					},
+					"colorGradingEnabled": false
 				},
 				"bloom": {
 					"enabled": false,

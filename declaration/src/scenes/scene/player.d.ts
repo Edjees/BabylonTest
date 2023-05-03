@@ -1,7 +1,4 @@
-import { Mesh, AnimationRange, Animatable, Animation, Vector3, Sound, StandardMaterial } from "@babylonjs/core";
-import FacePlane from "./faceplane";
-import { TransformNode } from "@babylonjs/core/Meshes/transformNode";
-import { RawTexture } from "@babylonjs/core/Materials/Textures/rawTexture";
+import { Mesh, AnimationRange, Animatable, Animation, Vector3 } from "@babylonjs/core";
 export interface IAction {
     range: AnimationRange;
     direction: Vector3;
@@ -15,20 +12,6 @@ export interface IAction {
 export interface IPlayerActions {
     [keyChar: string]: IAction;
     [keyCode: number]: IAction;
-}
-export interface Sounds {
-    build: Sound;
-    throw: Sound;
-    explosion: Sound;
-    destroy: Sound;
-    transit: Sound;
-    rawData: {
-        build: string;
-        throw: string;
-        explosion: string;
-        destroy: string;
-        transit: string;
-    };
 }
 export default class Player extends Mesh {
     private _forwardKey;
@@ -47,29 +30,20 @@ export default class Player extends Mesh {
     private _jumpValue;
     private _moveAxis;
     private _moveDirection;
-    isLocalPlayer: boolean;
-    playerId: number;
-    facePlane: FacePlane;
-    isReset: boolean;
-    ballSpot: TransformNode;
-    playerSounds: Sounds;
-    facePlate: Mesh;
-    ballFace: Mesh;
-    faceTexture: RawTexture;
-    faceMaterial: StandardMaterial;
-    isDead: boolean;
-    private _forwardPressed;
-    private _backwardPressed;
-    private _leftPressed;
-    private _rightPressed;
-    FindFace(bone: any): any;
+    private fpsDiv;
+    /**
+     * Override constructor.
+     * @warn do not fill.
+     */
+    private constructor();
+    /**
+     * Called on the scene starts.
+     */
     onStart(): void;
-    onUpdate(): void;
-    private _onKeyDown;
-    private _onKeyUp;
     /**
      * Called each frame.
      */
+    onUpdate(): void;
     /**
      * Performs the action according to the given action object.
      */
@@ -93,9 +67,11 @@ export default class Player extends Mesh {
     /**
      * Called on a keyboard key is down.
      */
+    private _onKeyboardDown;
     /**
      * Called on a keyboard key is up.
      */
+    private _onKeyboardUp;
     /**
      * Called on the shift key is down.
      */

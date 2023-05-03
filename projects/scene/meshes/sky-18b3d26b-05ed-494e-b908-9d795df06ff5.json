@@ -71,6 +71,7 @@
 				0
 			],
 			"applyFog": true,
+			"parentId": null,
 			"delayLoadingFile": "geometries/b26c6518-c545-40b4-9d5f-4143b79b48d7.babylonbinarymeshdata",
 			"boundingBoxMaximum": [
 				2500,

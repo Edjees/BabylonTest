@@ -25,8 +25,13 @@ var core_1 = require("@babylonjs/core");
 var decorators_1 = require("../decorators");
 var Player = /** @class */ (function (_super) {
     __extends(Player, _super);
+    /**
+     * Override constructor.
+     * @warn do not fill.
+     */
+    // @ts-ignore ignoring the super call as we don't want to re-init
     function Player() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
+        var _this = this;
         _this._actions = {};
         _this._shift = false;
         _this._targetBone = null;
@@ -34,154 +39,104 @@ var Player = /** @class */ (function (_super) {
         _this._jumpValue = 0;
         _this._moveAxis = core_1.Vector3.Zero();
         _this._moveDirection = core_1.Vector3.Zero();
-        _this.isLocalPlayer = false;
-        _this.isReset = false;
-        _this.playerSounds = {
-            build: null,
-            destroy: null,
-            throw: null,
-            explosion: null,
-            transit: null,
-            rawData: {
-                build: null,
-                destroy: null,
-                throw: null,
-                explosion: null,
-                transit: null,
-            }
-        };
-        _this.isDead = false;
-        _this._forwardPressed = false;
-        _this._backwardPressed = false;
-        _this._leftPressed = false;
-        _this._rightPressed = false;
+        _this.fpsDiv = document.getElementById("fps");
         return _this;
     }
-    Player.prototype.FindFace = function (bone) {
-        var meshes = bone._children;
-        if (meshes) {
-            return meshes[0];
-        }
-        var children = bone.getChildren();
-        for (var i = 0; i < children.length; i++) {
-            return this.FindFace(children[i]);
-        }
-    };
+    /**
+     * Called on the scene starts.
+     */
     Player.prototype.onStart = function () {
+        var _a;
         // Allow matrices interpolation.
         core_1.Animation.AllowMatricesInterpolation = true;
         // Configure ellipsoid
         this.ellipsoid.set(20, 100, 20);
         this.ellipsoidOffset.set(0, 100, 0);
-        this.isLocalPlayer = true;
         // Configure actions.
+        this._actions = (_a = {
+                "idle": {
+                    name: "idle",
+                    range: this.skeleton.getAnimationRange("YBot_Idle"),
+                    direction: core_1.Vector3.Zero(),
+                },
+                "walk": {
+                    name: "walk",
+                    range: this.skeleton.getAnimationRange("YBot_Walk"),
+                    direction: new core_1.Vector3(0, 0, 1),
+                }
+            },
+            _a[this._forwardKey] = {
+                name: "run",
+                range: this.skeleton.getAnimationRange("YBot_Run"),
+                direction: new core_1.Vector3(0, 0, 1),
+                shift: "walk",
+            },
+            _a[this._backwardKey] = {
+                name: "back",
+                range: this.skeleton.getAnimationRange("YBot_Walk"),
+                direction: new core_1.Vector3(0, 0, -1),
+                invert: true,
+            },
+            _a[this._leftKey] = {
+                name: "left",
+                range: this.skeleton.getAnimationRange("YBot_LeftStrafeWalk"),
+                direction: new core_1.Vector3(-1, 0, 0),
+            },
+            _a[this._rightKey] = {
+                name: "right",
+                range: this.skeleton.getAnimationRange("YBot_RightStrafeWalk"),
+                direction: new core_1.Vector3(1, 0, 0),
+            },
+            _a);
         // Get the bone the camera must target
-        this._targetBone = this.absolutePosition;
-        this._camera = this._scene.getNodeByName("playerCamera");
-        this._camera.panningAxis = core_1.Vector3.Zero();
+        var boneIndex = this.skeleton.getBoneIndexByName("mixamorig:Spine");
+        this._targetBone = this.skeleton.bones[boneIndex];
         // Default animation, idle
-    };
-    Player.prototype.onUpdate = function () {
-        if (!this.isLocalPlayer) {
-            return;
-        }
-        this._moveAxis.set(0, 0, 0);
-        // Update movement axis based on key states
-        if (this._forwardPressed)
-            this._moveAxis.z += 1;
-        if (this._backwardPressed)
-            this._moveAxis.z -= 1;
-        if (this._leftPressed)
-            this._moveAxis.x -= 1;
-        if (this._rightPressed)
-            this._moveAxis.x += 1;
-        this._moveAxis.normalize();
-        var speed = this._shift ? this._walkSpeed : this._runSpeed;
-        this._moveAxis.scaleInPlace(speed * this._scene.getAnimationRatio());
-        this.getDirectionToRef(this._moveAxis, this._moveDirection);
-        this._moveDirection.y = this._scene.gravity.y + this._jumpValue;
-        this.moveWithCollisions(this._moveDirection);
-        this._camera.target.copyFrom(this._targetBone);
-        if (this._moveAxis != core_1.Vector3.ZeroReadOnly) {
-            this._syncRotation(-this._camera.alpha - (Math.PI * 0.5));
-        }
-    };
-    // ... (same methods as before)
-    Player.prototype._onKeyDown = function (info) {
-        switch (info.event.keyCode) {
-            case this._forwardKey:
-                this._forwardPressed = true;
-                break;
-            case this._backwardKey:
-                this._backwardPressed = true;
-                break;
-            case this._leftKey:
-                this._leftPressed = true;
-                break;
-            case this._rightKey:
-                this._rightPressed = true;
-                break;
-        }
-    };
-    Player.prototype._onKeyUp = function (info) {
-        switch (info.event.keyCode) {
-            case this._forwardKey:
-                this._forwardPressed = false;
-                break;
-            case this._backwardKey:
-                this._backwardPressed = false;
-                break;
-            case this._leftKey:
-                this._leftPressed = false;
-                break;
-            case this._rightKey:
-                this._rightPressed = false;
-                break;
-        }
+        this._doAction(this._actions.idle);
     };
     /**
      * Called each frame.
      */
-    // public onUpdate(): void {
-    //     if (!this.isLocalPlayer) {
-    //         return;
-    //     }
-    //     // Move
-    //     let actionsCount = 0;
-    //     let speed = 0;
-    //     this._moveAxis.set(0, 0, 0);
-    //     for (const key in this._actions) {
-    //         const a = this._actions[key];
-    //         if (!a.action || !a.direction.length()) {
-    //             continue;
-    //         }
-    //         const weight = a.action.weight;
-    //         this._moveAxis = this._moveAxis.addInPlace(a.direction.multiplyByFloats(weight, weight, weight));
-    //         speed += weight * this._runSpeed;
-    //         if (weight > 0.5) {
-    //             actionsCount++;
-    //         }
-    //     }
-    //     speed *= this._scene.getAnimationRatio();
-    //     if (actionsCount > 0) {
-    //         speed /= actionsCount;
-    //         this._moveAxis.divideInPlace(new Vector3(actionsCount, actionsCount, actionsCount));
-    //         this.getDirectionToRef(this._moveAxis, this._moveDirection);
-    //     } else {
-    //         this._moveDirection.set(0, 0, 0);
-    //     }
-    //     this._moveDirection.x *= speed;
-    //     this._moveDirection.z *= speed;
-    //     this._moveDirection.y = this._scene.gravity.y + this._jumpValue;
-    //     this.moveWithCollisions(this._moveDirection);
-    //     // Sync camera target
-    //     const boneWorldPosition = this._targetBone.getPosition(Space.WORLD).multiply(this.scaling);
-    //     const targetWorldPosition = this.absolutePosition.add(boneWorldPosition).add(new Vector3(0, 0, 0));
-    //     this._camera.target.copyFrom(targetWorldPosition);
-    //     if (actionsCount > 0) {
-    //         this._syncRotation(-this._camera.alpha - (Math.PI * 0.5));
-    //     }
-    // }
+    Player.prototype.onUpdate = function () {
+        this.fpsDiv.innerHTML = this._scene.getEngine().getFps().toFixed() + " fps";
+        // Move
+        var actionsCount = 0;
+        var speed = 0;
+        this._moveAxis.set(0, 0, 0);
+        for (var key in this._actions) {
+            var a = this._actions[key];
+            if (!a.action || !a.direction.length()) {
+                continue;
+            }
+            var weight = a.action.weight;
+            this._moveAxis = this._moveAxis.addInPlace(a.direction.multiplyByFloats(weight, weight, weight));
+            speed += weight * (!this._shift && a.name === "run" ? this._runSpeed : this._walkSpeed);
+            if (weight > 0.5) {
+                actionsCount++;
+            }
+        }
+        speed *= this._scene.getAnimationRatio();
+        if (actionsCount > 0) {
+            speed /= actionsCount;
+            this._moveAxis.divideInPlace(new core_1.Vector3(actionsCount, actionsCount, actionsCount));
+            this.getDirectionToRef(this._moveAxis, this._moveDirection);
+        }
+        else {
+            this._moveDirection.set(0, 0, 0);
+        }
+        this._moveDirection.x *= speed;
+        this._moveDirection.z *= speed;
+        this._moveDirection.y = this._scene.gravity.y + this._jumpValue;
+        this.moveWithCollisions(this._moveDirection);
+        // Sync camera target
+        var boneWorldPosition = this._targetBone.getPosition(core_1.Space.WORLD).multiply(this.scaling);
+        var targetWorldPosition = this.position.add(boneWorldPosition).add(new core_1.Vector3(2, 0, 0));
+        this._camera.target.copyFrom(targetWorldPosition);
+        // Sync player rotation
+        if (actionsCount > 0) {
+            this._syncRotation(-this._camera.alpha - (Math.PI * 0.5));
+        }
+    };
     /**
      * Performs the action according to the given action object.
      */
@@ -254,43 +209,53 @@ var Player = /** @class */ (function (_super) {
     /**
      * Called on a keyboard key is down.
      */
-    // @onKeyboardEvent([], KeyboardEventTypes.KEYDOWN)
-    // private _onKeyboardDown(info: KeyboardInfo): void {
-    //     if (info.event.key === "Shift") {
-    //         return this._shiftDown();
-    //     }
-    //     const key = info.event.keyCode;
-    //     let action = this._actions[key];
-    //     if (!action) { return; }
-    //     if (this._shift && action.shift) { action = this._actions[action.shift]; }
-    //     if (!action) { return; }
-    //     if (!action.running) {
-    //         this._cancelAction(this._actions.idle);
-    //         this._doAction(action);
-    //     }
-    // }
+    Player.prototype._onKeyboardDown = function (info) {
+        if (info.event.key === "Shift") {
+            return this._shiftDown();
+        }
+        var key = info.event.keyCode;
+        var action = this._actions[key];
+        if (!action) {
+            return;
+        }
+        if (this._shift && action.shift) {
+            action = this._actions[action.shift];
+        }
+        if (!action) {
+            return;
+        }
+        if (!action.running) {
+            this._cancelAction(this._actions.idle);
+            this._doAction(action);
+        }
+    };
     /**
      * Called on a keyboard key is up.
      */
-    // @onKeyboardEvent([], KeyboardEventTypes.KEYUP)
-    // private _onKeyboardUp(info: KeyboardInfo): void {
-    //     if (info.event.key === "Shift") {
-    //         return this._shiftUp();
-    //     }
-    //     const key = info.event.keyCode;
-    //     let action = this._actions[key];
-    //     if (!action) { return; }
-    //     if (this._shift && action.shift) { action = this._actions[action.shift]; }
-    //     if (!action) { return; }
-    //     if (action.running) {
-    //         this._cancelAction(action);
-    //     }
-    //     // Check if no more running action.
-    //     const runningActions = Object.values(this._actions).find((a) => a.running);
-    //     if (!runningActions) {
-    //         this._doAction(this._actions.idle);
-    //     }
-    // }
+    Player.prototype._onKeyboardUp = function (info) {
+        if (info.event.key === "Shift") {
+            return this._shiftUp();
+        }
+        var key = info.event.keyCode;
+        var action = this._actions[key];
+        if (!action) {
+            return;
+        }
+        if (this._shift && action.shift) {
+            action = this._actions[action.shift];
+        }
+        if (!action) {
+            return;
+        }
+        if (action.running) {
+            this._cancelAction(action);
+        }
+        // Check if no more running action.
+        var runningActions = Object.values(this._actions).find(function (a) { return a.running; });
+        if (!runningActions) {
+            this._doAction(this._actions.idle);
+        }
+    };
     /**
      * Called on the shift key is down.
      */
@@ -350,14 +315,17 @@ var Player = /** @class */ (function (_super) {
         (0, decorators_1.visibleInInspector)("number", "Animation Speed", 1)
     ], Player.prototype, "_animationSpeed", void 0);
     __decorate([
-        (0, decorators_1.onKeyboardEvent)([], core_1.KeyboardEventTypes.KEYDOWN)
-    ], Player.prototype, "_onKeyDown", null);
-    __decorate([
-        (0, decorators_1.onKeyboardEvent)([], core_1.KeyboardEventTypes.KEYUP)
-    ], Player.prototype, "_onKeyUp", null);
+        (0, decorators_1.fromScene)("playerCamera")
+    ], Player.prototype, "_camera", void 0);
     __decorate([
         (0, decorators_1.onKeyboardEvent)([32], core_1.KeyboardEventTypes.KEYUP)
     ], Player.prototype, "_jump", null);
+    __decorate([
+        (0, decorators_1.onKeyboardEvent)([], core_1.KeyboardEventTypes.KEYDOWN)
+    ], Player.prototype, "_onKeyboardDown", null);
+    __decorate([
+        (0, decorators_1.onKeyboardEvent)([], core_1.KeyboardEventTypes.KEYUP)
+    ], Player.prototype, "_onKeyboardUp", null);
     return Player;
 }(core_1.Mesh));
 exports.default = Player;
