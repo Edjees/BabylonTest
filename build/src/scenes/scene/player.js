@@ -98,8 +98,8 @@ var Player = /** @class */ (function (_super) {
      * Called each frame.
      */
     Player.prototype.onUpdate = function () {
-        this.fpsDiv.innerHTML = this._scene.getEngine().getFps().toFixed() + " fps";
         // Move
+        this.fpsDiv.innerHTML = this.getEngine().getFps().toFixed();
         var actionsCount = 0;
         var speed = 0;
         this._moveAxis.set(0, 0, 0);

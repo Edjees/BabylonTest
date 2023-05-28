@@ -63,6 +63,7 @@ export default class Player extends Mesh {
 
     private fpsDiv = document.getElementById("fps");
 
+
     /**
      * Override constructor.
      * @warn do not fill.
@@ -129,10 +130,10 @@ export default class Player extends Mesh {
      * Called each frame.
      */
     public onUpdate(): void {
-
-        this.fpsDiv.innerHTML = this._scene.getEngine().getFps().toFixed() + " fps";        
-
         // Move
+
+        this.fpsDiv.innerHTML = this.getEngine().getFps().toFixed()
+
         let actionsCount = 0;
         let speed = 0;
 

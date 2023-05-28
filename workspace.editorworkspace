@@ -1,5 +1,5 @@
 {
-	"editorVersion": "4.5.0",
+	"editorVersion": "4.6.0",
 	"lastOpenedScene": "projects/scene/scene.editorproject",
 	"serverPort": 1338,
 	"generateSceneOnSave": true,
@@ -7,18 +7,12 @@
 	"watchProject": true,
 	"physicsEngine": "cannon",
 	"pluginsPreferences": {},
-	"packageManager": "npm",
-	"outputSceneDirectory": "",
 	"https": {
-		"enabled": false
-	},
-	"basisCompressedTextures": {
 		"enabled": false
 	},
 	"ktx2CompressedTextures": {
 		"enabled": false,
 		"pvrTexToolCliPath": "",
-		"nvidiaTextureToolsLink": {},
 		"forcedFormat": "automatic",
 		"enabledInPreview": false,
 		"astcOptions": {
@@ -35,5 +29,6 @@
 			"enabled": false,
 			"quality": "etcfast"
 		}
-	}
+	},
+	"packageManager": "npm"
 }

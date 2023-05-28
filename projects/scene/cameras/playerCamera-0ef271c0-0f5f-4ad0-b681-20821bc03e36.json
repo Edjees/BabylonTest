@@ -24,12 +24,11 @@
 		0
 	],
 	"panningInertia": 0.9,
-	"zoomToMouseLocation": false,
 	"zoomOnFactor": 1,
-	"targetScreenOffset": [
-		0,
-		0
-	],
+	"targetScreenOffset": {
+		"x": 0,
+		"y": 0
+	},
 	"allowUpsideDown": true,
 	"useInputToRestoreState": true,
 	"rotation": [
@@ -49,7 +48,6 @@
 		0
 	],
 	"fov": 0.64,
-	"projectionPlaneTilt": 0,
 	"minZ": 1,
 	"maxZ": 10000,
 	"inertia": 0,
@@ -71,7 +69,6 @@
 			}
 		}
 	},
-	"uniqueId": 110,
 	"type": "ArcRotateCamera",
 	"parentId": "078c2d5d-b690-4f72-bfb1-614c5eb90ad3",
 	"inputsmgr": {
@@ -100,7 +97,6 @@
 		"ArcRotateCameraMouseWheelInput": {
 			"tags": null,
 			"wheelPrecision": 10,
-			"zoomToMouseLocation": false,
 			"wheelDeltaPercentage": 0
 		},
 		"ArcRotateCameraPointersInput": {
@@ -115,13 +111,11 @@
 			"pinchPrecision": 12,
 			"pinchDeltaPercentage": 0,
 			"useNaturalPinchZoom": false,
-			"pinchZoom": true,
 			"panningSensibility": 1000,
 			"multiTouchPanning": true,
 			"multiTouchPanAndZoom": true
 		}
 	},
 	"animations": [],
-	"ranges": [],
-	"isEnabled": true
+	"ranges": []
 }

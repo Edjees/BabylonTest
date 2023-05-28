@@ -65,8 +65,7 @@
 							"value": 10
 						}
 					}
-				},
-				"renderingGroupId": 0
+				}
 			},
 			"instances": [
 				{
@@ -94,14 +93,10 @@
 					],
 					"metadata": {
 						"isPickable": true,
-						"script": {
-							"name": "None"
-						},
-						"renderingGroupId": 0
+						"script": {}
 					},
 					"animations": [],
-					"ranges": [],
-					"parentId": null
+					"ranges": []
 				},
 				{
 					"name": "cube (Mesh Instance)",
@@ -128,14 +123,10 @@
 					],
 					"metadata": {
 						"isPickable": true,
-						"script": {
-							"name": "None"
-						},
-						"renderingGroupId": 0
+						"script": {}
 					},
 					"animations": [],
-					"ranges": [],
-					"parentId": null
+					"ranges": []
 				},
 				{
 					"name": "cube (Mesh Instance)",
@@ -162,14 +153,10 @@
 					],
 					"metadata": {
 						"isPickable": true,
-						"script": {
-							"name": "None"
-						},
-						"renderingGroupId": 0
+						"script": {}
 					},
 					"animations": [],
-					"ranges": [],
-					"parentId": null
+					"ranges": []
 				},
 				{
 					"name": "cube (Mesh Instance)",
@@ -196,14 +183,10 @@
 					],
 					"metadata": {
 						"isPickable": true,
-						"script": {
-							"name": "None"
-						},
-						"renderingGroupId": 0
+						"script": {}
 					},
 					"animations": [],
-					"ranges": [],
-					"parentId": null
+					"ranges": []
 				},
 				{
 					"name": "cube (Mesh Instance)",
@@ -230,14 +213,10 @@
 					],
 					"metadata": {
 						"isPickable": true,
-						"script": {
-							"name": "None"
-						},
-						"renderingGroupId": 0
+						"script": {}
 					},
 					"animations": [],
-					"ranges": [],
-					"parentId": null
+					"ranges": []
 				}
 			],
 			"animations": [],
@@ -252,7 +231,6 @@
 				0
 			],
 			"applyFog": true,
-			"parentId": null,
 			"delayLoadingFile": "geometries/7c781f49-15e0-439d-adbf-6668dd24c5e9.babylonbinarymeshdata",
 			"boundingBoxMaximum": [
 				0.5,

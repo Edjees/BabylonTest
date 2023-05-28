@@ -63,8 +63,7 @@
 				"isPickable": true,
 				"script": {
 					"name": "None"
-				},
-				"renderingGroupId": 0
+				}
 			},
 			"instances": [],
 			"animations": [],
@@ -79,7 +78,6 @@
 				0
 			],
 			"applyFog": true,
-			"parentId": null,
 			"delayLoadingFile": "geometries/9def35f2-a218-4982-b1c3-e2e788b1628b.babylonbinarymeshdata",
 			"boundingBoxMaximum": [
 				0.5,
